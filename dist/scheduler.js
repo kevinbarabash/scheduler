@@ -14,26 +14,29 @@ var Scheduler = (function () {
             var currentTask = self.currentTask();
             if (currentTask !== null && !currentTask.started()) {
                 self.startTask(currentTask);
+                self.tick();
             }
         }, 0);
     };
     Scheduler.prototype.startTask = function (task) {
         var self = this;
-        task.once("done", function () {
-            var poppedTask = self.queue.pop_back();
-            if (poppedTask !== null && !poppedTask.started()) {
-                throw "popping a task that hasn't started";
-            }
-            self.tick();
-        });
         task.start();
+    };
+    Scheduler.prototype.removeTask = function (task) {
+        if (task === this.currentTask()) {
+            this.queue.pop_back();
+            this.tick();
+        }
+        else {
+            throw "not the current task";
+        }
     };
     Scheduler.prototype.currentTask = function () {
         return this.queue.last ? this.queue.last.value : null;
     };
     Scheduler.prototype.clear = function () {
         this.queue.forEach(function (task) {
-            task.removeAllListeners("done");
+            task.doneCallbacks = [];
         });
         this.queue.clear();
     };
@@ -46,11 +49,12 @@ var Scheduler = (function () {
                 return;
             }
             var task = createFunc();
-            task.once("done", function () {
+            task.doneCallback = function () {
                 if (_repeat) {
                     setTimeout(repeatFunc, _delay);
                 }
-            });
+                _scheduler.removeTask(task);
+            };
             _scheduler.addTask(task);
         }
         var repeater = {

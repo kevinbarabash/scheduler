@@ -4,6 +4,7 @@ declare class Scheduler {
     addTask(task: any): void;
     tick(): void;
     startTask(task: any): void;
+    removeTask(task: any): void;
     private currentTask();
     clear(): void;
     createRepeater(createFunc: any, delay: number): {

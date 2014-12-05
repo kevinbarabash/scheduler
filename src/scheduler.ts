@@ -11,6 +11,7 @@ interface Task {
     started: () => boolean;
     removeAllListeners: (event: string) => void;
     once: (event: string, callback: (...rest) => void) => void;
+    doneCallbacks: any[];
 }
 
 class Scheduler {
@@ -31,20 +32,30 @@ class Scheduler {
             var currentTask = self.currentTask();
             if (currentTask !== null && !currentTask.started()) {
                 self.startTask(currentTask);
+                self.tick();
             }
         }, 0);  // defer execution
     }
 
     startTask(task) {
         var self = this;
-        task.once("done", function () {
-            var poppedTask = self.queue.pop_back();
-            if (poppedTask !== null && !poppedTask.started()) {
-                throw "popping a task that hasn't started";
-            }
-            self.tick();
-        });
+        //task.once("done", function () {
+        //    var poppedTask = self.queue.pop_back();
+        //    if (poppedTask !== null && !poppedTask.started()) {
+        //        throw "popping a task that hasn't started";
+        //    }
+        //    self.tick();
+        //});
         task.start();
+    }
+
+    removeTask(task) {
+        if (task === this.currentTask()) {
+            this.queue.pop_back();
+            this.tick();
+        } else {
+            throw "not the current task";
+        }
     }
 
     private currentTask() {
@@ -53,7 +64,8 @@ class Scheduler {
 
     clear() {
         this.queue.forEach(function (task) {
-            task.removeAllListeners("done");
+            //task.removeAllListeners("done");
+            task.doneCallbacks = [];
         });
         this.queue.clear();
     }
@@ -68,11 +80,17 @@ class Scheduler {
                 return;
             }
             var task = createFunc();
-            task.once("done", function () {
+            task.doneCallback = function () {
                 if (_repeat) {
                     setTimeout(repeatFunc, _delay);
                 }
-            });
+                _scheduler.removeTask(task);
+            };
+            //task.once("done", function () {
+            //    if (_repeat) {
+            //        setTimeout(repeatFunc, _delay);
+            //    }
+            //});
             _scheduler.addTask(task);
         }
 

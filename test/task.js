@@ -1,11 +1,8 @@
-function Task(action) {
-    EventEmitter.call(this);
+function Task(action, doneCallback) {
     this._started = false;
     this.action = action;
+    this.doneCallback = doneCallback || function () {};
 }
-
-Task.prototype = Object.create(EventEmitter.prototype);
-Task.prototype.constructor = Task;
 
 Task.prototype.start = function () {
     this._started = true;
@@ -13,7 +10,7 @@ Task.prototype.start = function () {
 };
 
 Task.prototype.complete = function () {
-    this.emit("done");
+    this.doneCallback();
 };
 
 Task.prototype.started = function () {
