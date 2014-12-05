@@ -3,7 +3,6 @@ declare class Scheduler {
     constructor();
     addTask(task: any): void;
     tick(): void;
-    startTask(task: any): void;
     removeTask(task: any): void;
     private currentTask();
     clear(): void;

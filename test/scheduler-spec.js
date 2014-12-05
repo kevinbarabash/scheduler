@@ -10,7 +10,6 @@ describe("Scheduler", function () {
             },
             function () {
                 expect(true).to.be(true);
-                scheduler.removeTask(task);
                 done();
             });
         scheduler.addTask(task);
@@ -26,7 +25,6 @@ describe("Scheduler", function () {
             function () {
                 expect(num).to.be(undefined);
                 num = 1;
-                scheduler.removeTask(task1);
             });
         var task2 = new Task(
             function () {
@@ -35,7 +33,6 @@ describe("Scheduler", function () {
             function () {
                 expect(num).to.be(1);
                 num = 2;
-                scheduler.removeTask(task2);
             });
         var task3 = new Task(
             function () {
@@ -44,7 +41,6 @@ describe("Scheduler", function () {
             function () {
                 expect(num).to.be(2);
                 num = 3;
-                scheduler.removeTask(task3);
                 done();
             });
         scheduler.addTask(task1);
@@ -62,7 +58,6 @@ describe("Scheduler", function () {
             function () {
                 expect(num).to.be(undefined);
                 num = 1;
-                scheduler.removeTask(task1);
                 scheduler.clear();
             });
         var task2 = new Task(
@@ -72,7 +67,6 @@ describe("Scheduler", function () {
             function () {
                 expect(num).to.be(1);
                 num = 2;
-                scheduler.removeTask(task2);
             });
         var task3 = new Task(
             function () {
@@ -81,7 +75,6 @@ describe("Scheduler", function () {
             function () {
                 expect(num).to.be(2);
                 num = 5;
-                scheduler.removeTask(task3);
             });
 
         scheduler.addTask(task1);
