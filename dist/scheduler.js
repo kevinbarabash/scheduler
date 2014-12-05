@@ -18,7 +18,7 @@ var Scheduler = (function () {
         var _this = this;
         setTimeout(function () {
             var currentTask = _this.currentTask();
-            if (currentTask !== null && !currentTask.started()) {
+            if (currentTask !== null && !currentTask.started) {
                 currentTask.start();
                 _this.tick();
             }
@@ -37,9 +37,6 @@ var Scheduler = (function () {
         return this.queue.last ? this.queue.last.value : null;
     };
     Scheduler.prototype.clear = function () {
-        this.queue.forEach(function (task) {
-            task.doneCallbacks = [];
-        });
         this.queue.clear();
     };
     Scheduler.prototype.createRepeater = function (createFunc, delay) {

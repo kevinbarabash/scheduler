@@ -8,11 +8,8 @@
 import basic = require("../node_modules/basic-ds/lib/basic");
 
 interface Task {
-    started: () => boolean;
+    started: boolean;
     start: () => void;
-    removeAllListeners: (event: string) => void;
-    once: (event: string, callback: (...rest) => void) => void;
-    doneCallbacks: any[];
 }
 
 class Scheduler {
@@ -32,17 +29,17 @@ class Scheduler {
         this.tick();
     }
 
-    tick() {
+    private tick() {
         setTimeout(() => {
             var currentTask = this.currentTask();
-            if (currentTask !== null && !currentTask.started()) {
+            if (currentTask !== null && !currentTask.started) {
                 currentTask.start();
                 this.tick();
             }
         }, 0);  // defer execution
     }
 
-    removeTask(task) {
+    private removeTask(task) {
         if (task === this.currentTask()) {
             this.queue.pop_back();
             this.tick();
@@ -56,9 +53,6 @@ class Scheduler {
     }
 
     clear() {
-        this.queue.forEach(function (task) {
-            task.doneCallbacks = [];
-        });
         this.queue.clear();
     }
 
