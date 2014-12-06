@@ -112,6 +112,32 @@ describe("Scheduler", function () {
             }, 100);
         });
 
+        it("should call the doneCallback on each task", function (done) {
+            var count = 0;
+            var expectedCount = 0;
+            var scheduler = new Scheduler();
+            var repeater = scheduler.createRepeater(function () {
+                var task = new Task(function () {
+                    task.complete();
+                }, function () {
+                    count++;
+                });
+                return task;
+            }, 1000 / 60);
+
+            repeater.start();
+            setTimeout(function () {
+                expectedCount = count;
+                expect(count).to.be.greaterThan(2);
+                repeater.stop();
+
+                setTimeout(function () {
+                    expect(count).to.be(expectedCount);
+                    done();
+                }, 100);
+            }, 100);
+        });
+
         it("should change the delay", function (done) {
             var count = 0;
             var scheduler = new Scheduler();
