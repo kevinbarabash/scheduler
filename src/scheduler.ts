@@ -6,11 +6,7 @@
  */
 
 import basic = require("../node_modules/basic-ds/lib/basic");
-
-interface Task {
-    started: boolean;
-    start: () => void;
-}
+import Task = require("./task");
 
 class Scheduler {
     private queue: basic.LinkedList<Task>;
@@ -48,7 +44,7 @@ class Scheduler {
         }
     }
 
-    private currentTask() {
+    currentTask() {
         return this.queue.last ? this.queue.last.value : null;
     }
 
@@ -56,7 +52,7 @@ class Scheduler {
         this.queue.clear();
     }
 
-    createRepeater(createFunc, delay: number) {
+    createRepeater(createFunc: () => Task, delay: number) {
         var _repeat = true;
         var _scheduler = this;
         var _delay = delay;
