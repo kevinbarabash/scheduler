@@ -1,8 +1,8 @@
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Scheduler=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"./lib/scheduler.js":[function(require,module,exports){
-var basic = require("../node_modules/basic-ds/lib/basic");
+var LinkedList = require("../node_modules/basic-ds/lib/LinkedList");
 var Scheduler = (function () {
     function Scheduler() {
-        this.queue = new basic.LinkedList();
+        this.queue = new LinkedList();
     }
     Scheduler.prototype.addTask = function (task) {
         var _this = this;
@@ -79,7 +79,7 @@ var Scheduler = (function () {
 })();
 module.exports = Scheduler;
 
-},{"../node_modules/basic-ds/lib/basic":"/Users/kevin/live-editor/external/stepper/external/scheduler/node_modules/basic-ds/lib/basic.js"}],"/Users/kevin/live-editor/external/stepper/external/scheduler/node_modules/basic-ds/lib/LinkedList.js":[function(require,module,exports){
+},{"../node_modules/basic-ds/lib/LinkedList":"/Users/kevin/live-editor/external/stepper/external/scheduler/node_modules/basic-ds/lib/LinkedList.js"}],"/Users/kevin/live-editor/external/stepper/external/scheduler/node_modules/basic-ds/lib/LinkedList.js":[function(require,module,exports){
 var ListNode = require("./ListNode");
 var LinkedList = (function () {
     function LinkedList() {
@@ -227,47 +227,5 @@ var ListNode = (function () {
 })();
 module.exports = ListNode;
 
-},{}],"/Users/kevin/live-editor/external/stepper/external/scheduler/node_modules/basic-ds/lib/Stack.js":[function(require,module,exports){
-var Stack = (function () {
-    function Stack() {
-        this.items = [];
-        this.poppedLastItem = function (item) {
-        };
-    }
-    Stack.prototype.push = function (item) {
-        this.items.push(item);
-    };
-    Stack.prototype.pop = function () {
-        var item = this.items.pop();
-        if (this.isEmpty) {
-            this.poppedLastItem(item);
-        }
-        return item;
-    };
-    Stack.prototype.peek = function () {
-        return this.items[this.items.length - 1];
-    };
-    Object.defineProperty(Stack.prototype, "size", {
-        get: function () {
-            return this.items.length;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(Stack.prototype, "isEmpty", {
-        get: function () {
-            return this.items.length === 0;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    return Stack;
-})();
-module.exports = Stack;
-
-},{}],"/Users/kevin/live-editor/external/stepper/external/scheduler/node_modules/basic-ds/lib/basic.js":[function(require,module,exports){
-exports.LinkedList = require("./LinkedList");
-exports.Stack = require("./Stack");
-
-},{"./LinkedList":"/Users/kevin/live-editor/external/stepper/external/scheduler/node_modules/basic-ds/lib/LinkedList.js","./Stack":"/Users/kevin/live-editor/external/stepper/external/scheduler/node_modules/basic-ds/lib/Stack.js"}]},{},["./lib/scheduler.js"])("./lib/scheduler.js")
+},{}]},{},["./lib/scheduler.js"])("./lib/scheduler.js")
 });

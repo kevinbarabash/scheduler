@@ -5,14 +5,14 @@
  * - reschedule recurring tasks
  */
 
-import basic = require("../node_modules/basic-ds/lib/basic");
+import LinkedList = require("../node_modules/basic-ds/lib/LinkedList");
 import Task = require("./task");
 
 class Scheduler {
-    private queue: basic.LinkedList<Task>;
+    private queue: LinkedList<Task>;
 
     constructor () {
-        this.queue = new basic.LinkedList<Task>();
+        this.queue = new LinkedList<Task>();
     }
 
     addTask(task) {
